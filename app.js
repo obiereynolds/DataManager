@@ -11,11 +11,8 @@ var users = require('./routes/users');
 var app = express();
 
 var http = require('http');
-http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('Hello World\n');
-}).listen(1337, '127.0.0.1');
-console.log('Server running at http://127.0.0.1:1337/');
+
+app.set('port', process.env.PORT || 3000);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -63,5 +60,16 @@ app.use(function(err, req, res, next) {
   });
 });
 
+/*
+ http.createServer(function (req, res) {
+ res.writeHead(200, {'Content-Type': 'text/plain'});
+ res.end('Hello World\n');
+ }).listen(1337, '127.0.0.1');
+ console.log('Server running at http://127.0.0.1:1337/');
+ */
+
+http.createServer(app).listen(app.get('port'),function(){
+  console.log('Express server listening on port ' + app.get('port'));
+});
 
 module.exports = app;
